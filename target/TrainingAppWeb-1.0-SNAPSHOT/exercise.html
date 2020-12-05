@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Adding exercise</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css" />
+    <script type="text/javascript" src="/js/ajax.js"> </script>
+    <style>
+        body {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Adding exercise</h1>
+
+<p> Category:</p>
+<form action ="exercise" method="GET">
+    <select id = "category" name="category">
+        <option value="1" selected="selected">Running</option>
+        <option value="2">Walking</option>
+        <option value="3">Swimming</option>
+        <option value="4">Nordic walking</option>
+        <option value="5">Other</option>
+    </select>
+</form>
+<p> Comment:</p>
+<form action ="exercise" method="GET">
+    <input type="text" id="comment" name="comment" />
+</form>
+
+<p> Date:</p>
+<form action ="exercise" method="GET">
+    <input type="date" id="date" name="date" />
+</form>
+
+<p> Distance:</p>
+<form action ="exercise" method="GET">
+    <input type="text" id="distance" name="distance" />
+</form>
+
+<p> Duration:</p>
+<form action ="exercise" method="GET">
+    <input type="text" id="duration" name="duration" />
+</form>
+
+<p>
+    <input type="button" value="Save exercise" onclick="saveExercise('category','comment','date', 'distance', 'duration', 'result')" />
+</p>
+
+<p>
+    <input type="button" value="Main page" onclick="goForMainPage()" />
+</p>
+
+<p id="result"></p>
+
+</body>
+</html>
