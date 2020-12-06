@@ -12,26 +12,40 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
 
-@WebServlet(name = "HistoryServlet", urlPatterns = {"/history"})
+@WebServlet(name = "HistoryServlet", urlPatterns = {"/HistoryServlet"})
 public class HistoryServlet extends HttpServlet {
 
     private Model model;
+    Vector<Exercise> exs;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+       // response.setContentType("text/html;charset=UTF-8");
 
-       Vector<Exercise> exs = model.getExercises();
-       PrintWriter out = response.getWriter();
+        exs = model.getExercises();
+        PrintWriter out = response.getWriter();
 
-       for(Exercise e : exs){
-           out.println("<tr>");
-           out.println("<td>3</td>");
-           out.println(" <td>Nick</td>");
-           out.println("<td>52,300</td>");
-           out.println("<td>dcode</td>");
-           out.println("<td>dcode</td>");
-           out.println("<tr>");
+        for(Exercise e : exs){
+
+            out.println("<tr>");
+
+            out.println("<td>");
+            out.println(e.getExerciseName());
+            out.println("</td>");
+            out.println("<td>");
+            out.println(e.getComment());
+            out.println("</td>");
+            out.println("<td>");
+            out.println(e.getExerciseDate());
+            out.println("</td>");
+            out.println("<td>");
+            out.println(e.getDistance());
+            out.println("</td>");
+            out.println("<td>");
+            out.println(e.getDuration());
+            out.println("</td>");
+
+            out.println("</tr>");
        }
 
     }
@@ -45,6 +59,7 @@ public class HistoryServlet extends HttpServlet {
             this.model = (Model) request.getSession().getServletContext().getAttribute("model");
         }
     }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *

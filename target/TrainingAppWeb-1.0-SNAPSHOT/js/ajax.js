@@ -50,19 +50,35 @@ function saveExercise(category, comment, date, distance, duration, result){
     xhttp.send();
 
 }
-function updateTable(result){
+function getHistoryTable(){
 
     var xhttp = new XMLHttpRequest();
 
-    xhttp.onreadystatechange = function(){
-
-        if(this.readyState == 4 && this.status == 200){
-
-            document.getElementById(result).innerHTML = this.responseText;
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('historyTable').innerHTML = this.responseText;
         }
     };
-    xhttp.send();
 
+    xhttp.open("GET", "HistoryServlet", true);
+    xhttp.send();
+}
+
+function update() {
+
+    let table = document.getElementById('historyTable'), index;
+    for(var i = 0; i < table.rows.length; i++) {
+        table.rows[i].onClick = function() {
+            index = this.rowIndex;
+            console.log(index);
+        }
+    }
+}
+
+function start(){
+
+    getHistoryTable();
+    update();
 }
 
 function goForMainPage() {
@@ -70,17 +86,17 @@ function goForMainPage() {
 }
 
 function goForExercise() {
-    window.location.href="http://localhost:8080/exercise.html";
+    window.location.href="../exercise.html";
 }
 
 function goForBmi() {
-    window.location.href="http://localhost:8080/bmi.html";
+    window.location.href="../bmi.html";
 }
 
 function goForStats() {
-    window.location.href="http://localhost:8080/stats.html";
+    window.location.href="../stats.html";
 }
 
 function goForHistory() {
-    window.location.href="http://localhost:8080/history.html";
+    window.location.href="../history.html";
 }

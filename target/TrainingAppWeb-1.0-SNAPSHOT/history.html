@@ -6,54 +6,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/main.css" />
-    <script type="text/javascript" src="/js/ajax.js"> </script>
+    <script type="text/javascript" src="js/ajax.js"> </script>
     <style>
         body {
             text-align: center;
         }
     </style>
 </head>
-<body>
+<body onload="start();">
 
 <h1>Training history</h1>
 
-<p>
-    <button class="button2" onclick="updateTable('result')">Update</button>
-</p>
-
 <table class="content-table">
     <thead>
-    <tr>
-        <th>Category</th>
-        <th>Comment</th>
-        <th>Date</th>
-        <th>Distance</th>
-        <th>Duration</th>
-    </tr>
+        <tr>
+            <th>Category</th>
+            <th>Comment</th>
+            <th>Date</th>
+            <th>Distance</th>
+            <th>Duration</th>
+        </tr>
     </thead>
-    <tbody>
-    <tr>
-        <td>1</td>
-        <td>Domenic</td>
-        <td>88,110</td>
-        <td>dcode</td>
-        <td>dcode</td>
-    </tr>
-    <tr class="active-row">
-        <td>2</td>
-        <td>Sally</td>
-        <td>72,400</td>
-        <td>Students</td>
-        <td>Students</td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>Nick</td>
-        <td>52,300</td>
-        <td>dcode</td>
-        <td>dcode</td>
-    </tr>
-    <p id="result"></p>
+    <tbody id="historyTable">
+
     </tbody>
 </table>
 
