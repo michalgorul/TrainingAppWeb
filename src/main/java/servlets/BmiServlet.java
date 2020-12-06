@@ -32,9 +32,12 @@ public class BmiServlet extends HttpServlet {
         String arg1 = request.getParameter("arg1");
         String arg2 = request.getParameter("arg2");
 
-        if(arg1 == null || arg2 == null || arg1.length() == 0 || arg2.length() == 0){
+        if(arg1 == null || arg1.length() == 0){
+            notCalculated("height", response);
 
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Two parameters needed");
+        }
+        else if(arg2 == null  || arg2.length() == 0){
+            notCalculated("weight", response);
         }
         else{
 
@@ -78,7 +81,7 @@ public class BmiServlet extends HttpServlet {
 
             out.println("<p class=\"b\"> height: " + Double.toString(height) + "</p>");
             out.println("<p class=\"b\"> weight: " + Double.toString(weight) + "</p>");
-            out.println("<p class=\"b\"> BMI: " + Double.toString(model.calculateBmi(height, weight)) + "</p>");
+            out.println("<h3 class=\"b\"> BMI: " + Double.toString(model.calculateBmi(height, weight)) + "</h3>");
 
 
             out.println("</body>");

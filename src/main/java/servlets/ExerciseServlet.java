@@ -37,19 +37,15 @@ public class ExerciseServlet extends HttpServlet {
         String duration = request.getParameter("duration");
 
         Vector<String> names = model.readCategoriesFromFile("C:\\Users\\micha\\IdeaProjects\\TrainingAppWeb\\categories.txt");
-        PrintWriter out = response.getWriter();
 
-/*        for(String n: names){
-
-            out.println("<option>" + n + "</option>");
-
-        }*/
-
-        if(category == null || date == null || distance == null || duration == null ||
-                category.length() == 0 || date.length() == 0 || distance.length() == 0
-                || duration.length() == 0){
-
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "all parameters needed");
+        if(date == null || date.length() == 0){
+            exerciseNotSaved("date", response);
+        }
+        else if(distance == null || distance.length() == 0){
+            exerciseNotSaved("distance", response);
+        }
+        else if(duration == null || duration.length() == 0){
+            exerciseNotSaved("duration", response);
         }
         else{
 
@@ -67,7 +63,6 @@ public class ExerciseServlet extends HttpServlet {
 
                 exerciseNotSaved("distance and duration",response);
             }
-
         }
     }
 
