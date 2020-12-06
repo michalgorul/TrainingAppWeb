@@ -15,12 +15,26 @@ import java.util.Vector;
 @WebServlet(name = "HistoryServlet", urlPatterns = {"/HistoryServlet"})
 public class HistoryServlet extends HttpServlet {
 
+    /**
+     * A model object from MVC
+     */
     private Model model;
+
+    /**
+     * A vector of exercises
+     */
     Vector<Exercise> exs;
 
+    /**
+     * This method will handle request
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         exs = model.getExercises();
         PrintWriter out = response.getWriter();
@@ -50,6 +64,10 @@ public class HistoryServlet extends HttpServlet {
 
     }
 
+    /**
+     * This method will check if in the session the model exists
+     * @param request servlet request
+     */
     protected void checkIfModelExists(HttpServletRequest request){
         if((Model) request.getSession().getServletContext().getAttribute("model") == null){
             this.model = new Model();

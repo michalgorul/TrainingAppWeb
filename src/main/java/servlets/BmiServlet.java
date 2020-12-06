@@ -13,11 +13,18 @@ import java.io.PrintWriter;
 @WebServlet(name = "BmiServlet", urlPatterns = {"/bmi"})
 public class BmiServlet extends HttpServlet {
 
-
+    /**
+     * A model object from MVC
+     */
     private Model model;
-    private Double height;
-    private Double weight;
 
+    /**
+     * This method will handle request
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -34,8 +41,8 @@ public class BmiServlet extends HttpServlet {
             try{
                 arg1 = arg1.replace(",",".");
                 arg2 = arg2.replace(",",".");
-                height = Double.parseDouble(arg1);
-                weight = Double.parseDouble(arg2);
+                Double height = Double.parseDouble(arg1);
+                Double weight = Double.parseDouble(arg2);
                 calculated(height, weight, response);
 
             }catch (NumberFormatException ex){
@@ -47,6 +54,14 @@ public class BmiServlet extends HttpServlet {
 
     }
 
+    /**
+     * This method will handle action after user input was accepted
+     * @param height users height
+     * @param weight users weight
+     * @param response servlet request
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void calculated(Double height, Double weight, HttpServletResponse response)
             throws ServletException, IOException{
 
@@ -73,9 +88,15 @@ public class BmiServlet extends HttpServlet {
 
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Numbers are needed");
         }
-
     }
 
+    /**
+     * This method will handle action after user input was wrong
+     * @param wrongInput what value was badly input
+     * @param response servlet request
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void notCalculated(String wrongInput, HttpServletResponse response)
             throws ServletException, IOException{
 
@@ -101,6 +122,10 @@ public class BmiServlet extends HttpServlet {
         }
     }
 
+    /**
+     * This method will check if in the session the model exists
+     * @param request servlet request
+     */
     protected void checkIfModelExists(HttpServletRequest request){
         if((Model) request.getSession().getServletContext().getAttribute("model") == null){
             this.model = new Model();

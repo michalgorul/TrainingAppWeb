@@ -13,11 +13,22 @@
         }
     </style>
 </head>
-<body>
+<body onload="start();">
 
 <h1>Your statistics</h1>
 
+<table class="content-table">
+    <thead>
+    <tr>
+        <th>Category</th>
+        <th>Distance [km]</th>
+        <th>Duration [min]</th>
+    </tr>
+    </thead>
+    <tbody id="statsTable">
 
+    </tbody>
+</table>
 
 <p>
     <button class="button" onclick="goForMainPage()" style="vertical-align:middle"><span>Main page </span></button>

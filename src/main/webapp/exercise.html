@@ -12,7 +12,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="start();">
 
 <h1>Adding exercise</h1>
 
@@ -38,12 +38,12 @@
     <input type="date" id="date" name="date" />
 </form>
 
-<p> Distance:</p>
+<p> Distance in kilometers:</p>
 <form action ="exercise" method="GET">
     <input type="text" id="distance" name="distance" />
 </form>
 
-<p> Duration:</p>
+<p> Duration in minutes:</p>
 <form action ="exercise" method="GET">
     <input type="text" id="duration" name="duration" />
 </form>

@@ -50,6 +50,7 @@ function saveExercise(category, comment, date, distance, duration, result){
     xhttp.send();
 
 }
+
 function getHistoryTable(){
 
     var xhttp = new XMLHttpRequest();
@@ -61,6 +62,34 @@ function getHistoryTable(){
     };
 
     xhttp.open("GET", "HistoryServlet", true);
+    xhttp.send();
+}
+
+function getStatsTable(){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('statsTable').innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "StatsServlet", true);
+    xhttp.send();
+}
+
+function getCategories(){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('category').innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "exerciseNames", true);
     xhttp.send();
 }
 
@@ -78,7 +107,7 @@ function update() {
 function start(){
 
     getHistoryTable();
-    update();
+    getStatsTable();
 }
 
 function goForMainPage() {
