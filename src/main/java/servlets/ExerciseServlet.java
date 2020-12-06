@@ -42,6 +42,9 @@ public class ExerciseServlet extends HttpServlet {
                 dur = Double.parseDouble(duration);
                 exerciseSaved(category, comment, date, distance, duration, response);
 
+                /* adding exercise */
+                model.addExercise(category, comment, date, dis, dur);
+
             }catch (NumberFormatException ex){
 
                 exerciseNotSaved("distance and duration",response);
@@ -65,11 +68,11 @@ public class ExerciseServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h2>Exercise saved!</h2>");
 
-            out.println("<p> category: " + category + "</p>");
-            out.println("<p> comment: " + comment + "</p>");
-            out.println("<p> date: " + date + "</p>");
-            out.println("<p> distance: " + distance + "</p>");
-            out.println("<p> duration: " + duration + "</p>");
+            out.println("<p class=\"b\"> category: " + category + "</p>");
+            out.println("<p class=\"b\"> comment: " + comment + "</p>");
+            out.println("<p class=\"b\"> date: " + date + "</p>");
+            out.println("<p class=\"b\"> distance: " + distance + "</p>");
+            out.println("<p class=\"b\"> duration: " + duration + "</p>");
 
             out.println("</body>");
             out.println("</html>");
@@ -105,14 +108,41 @@ public class ExerciseServlet extends HttpServlet {
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        processRequest(request, response);
-
+    protected void checkIfModelExists(HttpServletRequest request){
+        if((Model) request.getSession().getServletContext().getAttribute("model") == null){
+            this.model = new Model();
+            request.getSession().getServletContext().setAttribute("model", model);
+        }
+        else{
+            this.model = (Model) request.getSession().getServletContext().getAttribute("model");
+        }
     }
 
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        checkIfModelExists(request);
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        checkIfModelExists(request);
         processRequest(request, response);
 
     }

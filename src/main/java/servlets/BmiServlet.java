@@ -18,12 +18,6 @@ public class BmiServlet extends HttpServlet {
     private Double height;
     private Double weight;
 
-    @Override
-    public void init(){
-
-        model = new Model();
-    }
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -67,9 +61,9 @@ public class BmiServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h2>Your result:</h2>");
 
-            out.println("<p> height: " + Double.toString(height) + "</p>");
-            out.println("<p> weight: " + Double.toString(weight) + "</p>");
-            out.println("<p> BMI: " + Double.toString(model.calculateBmi(height, weight)) + "</p>");
+            out.println("<p class=\"b\"> height: " + Double.toString(height) + "</p>");
+            out.println("<p class=\"b\"> weight: " + Double.toString(weight) + "</p>");
+            out.println("<p class=\"b\"> BMI: " + Double.toString(model.calculateBmi(height, weight)) + "</p>");
 
 
             out.println("</body>");
@@ -107,6 +101,16 @@ public class BmiServlet extends HttpServlet {
         }
     }
 
+    protected void checkIfModelExists(HttpServletRequest request){
+        if((Model) request.getSession().getServletContext().getAttribute("model") == null){
+            this.model = new Model();
+            request.getSession().getServletContext().setAttribute("model", model);
+        }
+        else{
+            this.model = (Model) request.getSession().getServletContext().getAttribute("model");
+        }
+    }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -117,6 +121,7 @@ public class BmiServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        checkIfModelExists(request);
         processRequest(request, response);
     }
 
@@ -130,7 +135,7 @@ public class BmiServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        checkIfModelExists(request);
         processRequest(request, response);
-
     }
 }

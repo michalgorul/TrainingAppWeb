@@ -23,7 +23,9 @@
         <option value="2">Walking</option>
         <option value="3">Swimming</option>
         <option value="4">Nordic walking</option>
-        <option value="5">Other</option>
+        <option value="5">Cycling</option>
+        <option value="6">Winter sports</option>
+        <option value="7">Other</option>
     </select>
 </form>
 <p> Comment:</p>
@@ -47,14 +49,16 @@
 </form>
 
 <p>
-    <input type="button" value="Save exercise" onclick="saveExercise('category','comment','date', 'distance', 'duration', 'result')" />
-</p>
-
-<p>
-    <input type="button" value="Main page" onclick="goForMainPage()" />
+    <button class="button2" onclick="saveExercise('category','comment','date', 'distance', 'duration', 'result')">Save exercise</button>
 </p>
 
 <p id="result"></p>
+
+<p>
+    <button class="button" onclick="goForMainPage()" style="vertical-align:middle"><span>Main page </span></button>
+</p>
+
+
 
 </body>
 </html>

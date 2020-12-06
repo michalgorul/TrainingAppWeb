@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.MyException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
@@ -24,6 +26,9 @@ public class Model {
      */
     private Vector<String> exerciseNames = new Vector<>();
 
+    public Vector<Exercise> getExercises(){
+        return this.exercises;
+    }
 
     /**
      * This method will read categories from file
@@ -52,6 +57,41 @@ public class Model {
             return categories;
         }
         return null;
+    }
+
+
+    /**
+     * This method will add new exercise to exercises vector
+     * @param name name of category
+     * @param comment comment user wanted to add
+     * @param date date of exercise
+     * @param distance distance that user made that exercise
+     * @param duration how long user was exercising
+     */
+    public void addExercise(String name, String comment, String date, Double distance, Double duration){
+
+        try{
+            checkDoublesIfNegative(distance, duration);
+            exercises.add(new Exercise(name, comment, date, distance, duration));
+        }
+        catch(MyException ignored){
+
+        }
+    }
+
+    /**
+     * This method will check if integers are negative and throw an exception if so
+     * @param args values to check
+     * @throws MyException thrown if value is negative
+     */
+    public void checkDoublesIfNegative(Double... args) throws MyException {
+
+        for (Double arg : args) {
+
+            if (arg < 0) {
+                throw new MyException(arg);
+            }
+        }
     }
 
     /**

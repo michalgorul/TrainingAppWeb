@@ -50,6 +50,20 @@ function saveExercise(category, comment, date, distance, duration, result){
     xhttp.send();
 
 }
+function updateTable(result){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function(){
+
+        if(this.readyState == 4 && this.status == 200){
+
+            document.getElementById(result).innerHTML = this.responseText;
+        }
+    };
+    xhttp.send();
+
+}
 
 function goForMainPage() {
     window.location.href="../mainPage.html";
