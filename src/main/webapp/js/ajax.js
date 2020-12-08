@@ -65,6 +65,34 @@ function getHistoryTable(){
     xhttp.send();
 }
 
+function getBmiHeight(){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('lastHeight').innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "BmiServlet", true);
+    xhttp.send();
+}
+
+function getBmiWeight(){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('lastWeight').innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "BmiServlet", true);
+    xhttp.send();
+}
+
 function getStatsTable(){
 
     var xhttp = new XMLHttpRequest();
@@ -108,6 +136,8 @@ function start(){
 
     getHistoryTable();
     getStatsTable();
+    getBmiHeight();
+    getBmiWeight();
 }
 
 function goForMainPage() {

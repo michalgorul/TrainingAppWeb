@@ -4,19 +4,30 @@ import model.Model;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "BmiServlet", urlPatterns = {"/bmi"})
+@WebServlet(name = "BmiServlet", urlPatterns = {"/bmi", "/BmiServlet"})
 public class BmiServlet extends HttpServlet {
 
     /**
      * A model object from MVC
      */
     private Model model;
+
+    /**
+     * A cookie for users height
+     */
+    private Cookie cookieHeight;
+
+    /**
+     * A cookie for users weight
+     */
+    private Cookie cookieWeight;
 
     /**
      * This method will handle request
@@ -29,8 +40,25 @@ public class BmiServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
+        PrintWriter out = response.getWriter();
+
         String arg1 = request.getParameter("arg1");
         String arg2 = request.getParameter("arg2");
+
+            Cookie[] cookies = request.getCookies();
+
+            out.println("<h3> Thanks to cookies we know that: </h3>");
+
+            for(Cookie c : cookies){
+
+                if(c.getName().equals("height")){
+                    out.println("<h4> Your last height was: " + c.getValue() + "</h2>");
+                }
+                if(c.getName().equals("weight")){
+                    out.println("<h4>Your last weight was: " + c.getValue() + "</h2>");
+                }
+            }
+
 
         if(arg1 == null || arg1.length() == 0){
             notCalculated("height", response);
@@ -47,6 +75,13 @@ public class BmiServlet extends HttpServlet {
                 Double height = Double.parseDouble(arg1);
                 Double weight = Double.parseDouble(arg2);
                 calculated(height, weight, response);
+                cookieHeight = new Cookie("height", height.toString());
+                cookieWeight = new Cookie("weight", weight.toString());
+
+                response.addCookie(cookieHeight);
+                response.addCookie(cookieWeight);
+
+                cookies = request.getCookies();
 
             }catch (NumberFormatException ex){
 
