@@ -15,6 +15,15 @@ function calculateBmi(arg1, arg2, result){
     let ar1 = document.getElementById(arg1).value;
     let ar2 = document.getElementById(arg2).value;
 
+
+    if(parseFloat(ar1) < 0 || parseFloat(ar2) < 0 ||
+        parseFloat(ar1) > 320.0 || parseFloat(ar2) > 320.0 ||
+        isNaN(ar1) || isNaN(ar2)){
+
+        alert("Please enter right height and weight");
+    }
+
+
     xhttp.open("GET", "bmi?arg1=" + ar1 + "&arg2=" + ar2, true);
     xhttp.send();
 
@@ -65,6 +74,34 @@ function getHistoryTable(){
     xhttp.send();
 }
 
+function getBmiHeight(){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('lastHeight').innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "BmiServlet", true);
+    xhttp.send();
+}
+
+function getBmiWeight(){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('lastWeight').innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "BmiServlet", true);
+    xhttp.send();
+}
+
 function getStatsTable(){
 
     var xhttp = new XMLHttpRequest();
@@ -108,6 +145,12 @@ function start(){
 
     getHistoryTable();
     getStatsTable();
+
+}
+
+function lastBmi(){
+    getBmiHeight();
+    getBmiWeight();
 }
 
 function goForMainPage() {

@@ -54,6 +54,7 @@ public class ExerciseServlet extends HttpServlet {
                 duration = duration.replace(",",".");
                 Double dis = Double.parseDouble(distance);
                 Double dur = Double.parseDouble(duration);
+
                 exerciseSaved(category, comment, date, distance, duration, response);
 
                 /* adding exercise */
@@ -134,7 +135,7 @@ public class ExerciseServlet extends HttpServlet {
         }
         catch(Exception ex){
 
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Numbers are needed");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
         }
     }
 

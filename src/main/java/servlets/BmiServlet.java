@@ -1,5 +1,6 @@
 package servlets;
 
+import exceptions.MyException;
 import model.Model;
 
 import javax.servlet.ServletException;
@@ -74,14 +75,22 @@ public class BmiServlet extends HttpServlet {
                 arg2 = arg2.replace(",",".");
                 Double height = Double.parseDouble(arg1);
                 Double weight = Double.parseDouble(arg2);
-                calculated(height, weight, response);
-                cookieHeight = new Cookie("height", height.toString());
-                cookieWeight = new Cookie("weight", weight.toString());
 
-                response.addCookie(cookieHeight);
-                response.addCookie(cookieWeight);
+                try{
+                    model.setHeightAndWeight(arg1,arg2);
+                    model.checkHeightAndWeight();
+                    calculated(height, weight, response);
+                    cookieHeight = new Cookie("height", height.toString());
+                    cookieWeight = new Cookie("weight", weight.toString());
 
-                cookies = request.getCookies();
+                    response.addCookie(cookieHeight);
+                    response.addCookie(cookieWeight);
+                }
+                catch (MyException ignored){
+                    notCalculated("height and weight", response);
+
+
+                }
 
             }catch (NumberFormatException ex){
 
@@ -148,11 +157,9 @@ public class BmiServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h2>BMI not calculated!</h2>");
-
-            out.println("<p> Please enter correct " + wrongInput + "</p>");
-
             out.println("</body>");
             out.println("</html>");
+
         }
         catch(Exception ex){
 

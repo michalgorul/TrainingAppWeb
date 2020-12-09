@@ -28,7 +28,7 @@ public class MainPageServlet extends HttpServlet {
         }
         catch(Exception ex){
 
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Numbers are needed");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
         }
 
 
