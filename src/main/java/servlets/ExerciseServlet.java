@@ -1,5 +1,8 @@
 package servlets;
 
+import exceptions.MyException;
+import model.Exercise;
+import model.ExerciseDao;
 import model.Model;
 
 import javax.servlet.ServletException;
@@ -11,6 +14,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
 
+/**
+ * The ExerciseServlet handling page with adding exercises
+ * @author Michal Goral
+ * @version 1.0
+ */
 @WebServlet(name = "ExerciseServlet", urlPatterns = {"/exercise", "/exerciseNames"})
 public class ExerciseServlet extends HttpServlet {
 
@@ -18,6 +26,8 @@ public class ExerciseServlet extends HttpServlet {
      * A model object from MVC
      */
     private Model model;
+
+    private ExerciseDao exerciseDao = new ExerciseDao();
 
     /**
      * This method will handle request
@@ -50,19 +60,39 @@ public class ExerciseServlet extends HttpServlet {
         else{
 
             try{
+
                 distance = distance.replace(",",".");
                 duration = duration.replace(",",".");
                 Double dis = Double.parseDouble(distance);
                 Double dur = Double.parseDouble(duration);
 
-                exerciseSaved(category, comment, date, distance, duration, response);
+                try{
+                    model.checkDoublesIfNegative(dis, dur);
+                    exerciseSaved(category, comment, date, distance, duration, response);
 
-                /* adding exercise */
-                model.addExercise(category, comment, date, dis, dur);
+                    /* adding exercise */
+                    model.addExercise(category, comment, date, dis, dur);
+
+                    try{
+                        Exercise ex = new Exercise(category, comment, date, dis, dur);
+                        exerciseDao.registerExercise(ex);
+                    }
+                    catch(ClassNotFoundException ex){
+                        ex.printStackTrace();
+                    }
+
+                }
+                catch (MyException ex){
+                    exerciseNotSaved("distance and duration",response);
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or wrong parameters");
+
+                }
 
             }catch (NumberFormatException ex){
 
                 exerciseNotSaved("distance and duration",response);
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or wrong parameters");
+
             }
         }
     }
@@ -128,8 +158,6 @@ public class ExerciseServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h2>Exercise not saved!</h2>");
 
-            out.println("<p> Please enter correct " + wrongInput + "</p>");
-
             out.println("</body>");
             out.println("</html>");
         }
@@ -140,10 +168,10 @@ public class ExerciseServlet extends HttpServlet {
     }
 
     /**
-     * This method will check if in the session the model exists
+     * This method will check if in the session the model and database manager exists
      * @param request servlet request
      */
-    protected void checkIfModelExists(HttpServletRequest request){
+    protected void checkIfModelAndDatabaseManagerExists(HttpServletRequest request){
         if((Model) request.getSession().getServletContext().getAttribute("model") == null){
             this.model = new Model();
             request.getSession().getServletContext().setAttribute("model", model);
@@ -163,7 +191,7 @@ public class ExerciseServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        checkIfModelExists(request);
+        checkIfModelAndDatabaseManagerExists(request);
         processRequest(request, response);
     }
 
@@ -177,7 +205,7 @@ public class ExerciseServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        checkIfModelExists(request);
+        checkIfModelAndDatabaseManagerExists(request);
         processRequest(request, response);
 
     }

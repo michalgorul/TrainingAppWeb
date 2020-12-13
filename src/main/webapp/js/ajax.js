@@ -16,13 +16,15 @@ function calculateBmi(arg1, arg2, result){
     let ar2 = document.getElementById(arg2).value;
 
 
-    if(parseFloat(ar1) < 0 || parseFloat(ar2) < 0 ||
-        parseFloat(ar1) > 320.0 || parseFloat(ar2) > 320.0 ||
-        isNaN(ar1) || isNaN(ar2)){
+    if(parseFloat(ar1) < 0 || parseFloat(ar1) > 320.0 || isNaN(ar1) || ar1.length === 0) {
 
-        alert("Please enter right height and weight");
+        alert("Please enter right height");
     }
 
+    else if(parseFloat(ar2) < 0 || parseFloat(ar2) > 320.0 || isNaN(ar2) || ar2.length === 0) {
+
+        alert("Please enter right weight");
+    }
 
     xhttp.open("GET", "bmi?arg1=" + ar1 + "&arg2=" + ar2, true);
     xhttp.send();
@@ -48,6 +50,16 @@ function saveExercise(category, comment, date, distance, duration, result){
     let ar3 = document.getElementById(date).value;
     let ar4 = document.getElementById(distance).value;
     let ar5 = document.getElementById(duration).value;
+
+    if(ar3.length === 0){
+        alert("Please enter right date");
+    }
+    else if(parseFloat(ar4) < 0 || isNaN(ar4) || ar4.length === 0){
+        alert("Please enter right distance");
+    }
+    else if(parseFloat(ar5) < 0 || isNaN(ar5) || ar5.length === 0){
+        alert("Please enter right duration");
+    }
 
     xhttp.open("GET",
         "exercise?category=" + ar1

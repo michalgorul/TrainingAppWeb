@@ -12,6 +12,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
 
+/**
+ * The StatisticsServlet handling page with statistics
+ * @author Michal Goral
+ * @version 1.0
+ */
 @WebServlet(name = "StatisticsServlet", urlPatterns = {"/StatsServlet"})
 public class StatisticsServlet extends HttpServlet {
 

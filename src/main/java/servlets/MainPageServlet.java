@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * The MainPageServlet handling main page
+ * @author Michal Goral
+ * @version 1.0
+ */
 @WebServlet(name = "MainPageServlet", urlPatterns = {"/mainPage"})
 public class MainPageServlet extends HttpServlet {
 

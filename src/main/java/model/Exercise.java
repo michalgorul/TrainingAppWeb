@@ -60,6 +60,38 @@ public class Exercise {
     }
 
     /**
+     * This method will give us category name of an exercise in number
+     * @return name of an exercise in int
+     */
+    public int getExerciseNameInt() {
+        int ret = 0;
+
+        if(exerciseName.equals("Running")){
+            ret = 1;
+        }
+        else if(exerciseName.equals("Cycling")){
+            ret = 2;
+        }
+        else if(exerciseName.equals("Swimming")){
+            ret = 3;
+        }
+        else if(exerciseName.equals("Walking")){
+            ret = 4;
+        }
+        else if(exerciseName.equals("Nordic walking")){
+            ret = 5;
+        }
+        else if(exerciseName.equals("Winter sports")){
+            ret = 6;
+        }
+        else if(exerciseName.equals("Other")){
+            ret = 7;
+        }
+
+        return ret;
+    }
+
+    /**
      * This method will set category name of an exercise after editing it in GUI
      * @param newName new category name
      */

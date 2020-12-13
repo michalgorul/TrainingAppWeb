@@ -12,6 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * The BmiServlet handling page with calculating BMI
+ * @author Michal Goral
+ * @version 1.0
+ */
 @WebServlet(name = "BmiServlet", urlPatterns = {"/bmi", "/BmiServlet"})
 public class BmiServlet extends HttpServlet {
 
@@ -53,10 +58,10 @@ public class BmiServlet extends HttpServlet {
             for(Cookie c : cookies){
 
                 if(c.getName().equals("height")){
-                    out.println("<h4> Your last height was: " + c.getValue() + "</h2>");
+                    out.println("<h4> Your last height was: " + c.getValue() + "</h4>");
                 }
                 if(c.getName().equals("weight")){
-                    out.println("<h4>Your last weight was: " + c.getValue() + "</h2>");
+                    out.println("<h4>Your last weight was: " + c.getValue() + "</h4>");
                 }
             }
 
@@ -79,26 +84,26 @@ public class BmiServlet extends HttpServlet {
                 try{
                     model.setHeightAndWeight(arg1,arg2);
                     model.checkHeightAndWeight();
-                    calculated(height, weight, response);
                     cookieHeight = new Cookie("height", height.toString());
                     cookieWeight = new Cookie("weight", weight.toString());
+                    calculated(height, weight, response);
 
                     response.addCookie(cookieHeight);
                     response.addCookie(cookieWeight);
                 }
                 catch (MyException ignored){
                     notCalculated("height and weight", response);
-
-
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or wrong parameters");
                 }
+
 
             }catch (NumberFormatException ex){
 
                 notCalculated("height and weight", response);
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or wrong parameters");
+
             }
         }
-
-
     }
 
     /**
@@ -133,7 +138,7 @@ public class BmiServlet extends HttpServlet {
         }
         catch(Exception ex){
 
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Numbers are needed");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
         }
     }
 
@@ -163,7 +168,7 @@ public class BmiServlet extends HttpServlet {
         }
         catch(Exception ex){
 
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Numbers are needed");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error");
         }
     }
 

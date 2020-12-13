@@ -1,6 +1,7 @@
 package servlets;
 
 import model.Exercise;
+import model.ExerciseDao;
 import model.Model;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
 
+/**
+ * The HistoryServlet handling page with exercises history
+ * @author Michal Goral
+ * @version 1.0
+ */
 @WebServlet(name = "HistoryServlet", urlPatterns = {"/HistoryServlet"})
 public class HistoryServlet extends HttpServlet {
 
@@ -25,6 +31,9 @@ public class HistoryServlet extends HttpServlet {
      */
     Vector<Exercise> exs;
 
+    private ExerciseDao exerciseDao = new ExerciseDao();
+
+
     /**
      * This method will handle request
      * @param request servlet request
@@ -36,7 +45,7 @@ public class HistoryServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        exs = model.getExercises();
+        exs = exerciseDao.readHistory();
         PrintWriter out = response.getWriter();
 
         for(Exercise e : exs){
