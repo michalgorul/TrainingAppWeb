@@ -31,7 +31,10 @@ public class HistoryServlet extends HttpServlet {
      */
     Vector<Exercise> exs;
 
-    private ExerciseDao exerciseDao = new ExerciseDao();
+    /**
+     * An entity manager
+     */
+    private ExerciseDao exerciseDao;
 
 
     /**
@@ -77,13 +80,21 @@ public class HistoryServlet extends HttpServlet {
      * This method will check if in the session the model exists
      * @param request servlet request
      */
-    protected void checkIfModelExists(HttpServletRequest request){
-        if((Model) request.getSession().getServletContext().getAttribute("model") == null){
+    protected void checkIfModelAndDatabaseManagerExists(HttpServletRequest request){
+        if(request.getSession().getServletContext().getAttribute("model") == null){
             this.model = new Model();
             request.getSession().getServletContext().setAttribute("model", model);
         }
         else{
             this.model = (Model) request.getSession().getServletContext().getAttribute("model");
+        }
+
+        if(request.getSession().getServletContext().getAttribute("database") == null){
+            this.exerciseDao = new ExerciseDao();
+            request.getSession().getServletContext().setAttribute("database", exerciseDao);
+        }
+        else{
+            this.exerciseDao = (ExerciseDao) request.getSession().getServletContext().getAttribute("database");
         }
     }
 
@@ -97,7 +108,7 @@ public class HistoryServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        checkIfModelExists(request);
+        checkIfModelAndDatabaseManagerExists(request);
         processRequest(request, response);
     }
 
@@ -111,7 +122,7 @@ public class HistoryServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        checkIfModelExists(request);
+        checkIfModelAndDatabaseManagerExists(request);
         processRequest(request, response);
     }
 }

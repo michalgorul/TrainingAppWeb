@@ -86,6 +86,20 @@ function getHistoryTable(){
     xhttp.send();
 }
 
+function getBmiTable(){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('bmiTable').innerHTML = this.responseText;
+        }
+    };
+
+    xhttp.open("GET", "BmiHistoryServlet", true);
+    xhttp.send();
+}
+
 function getBmiHeight(){
 
     var xhttp = new XMLHttpRequest();
@@ -128,6 +142,38 @@ function getStatsTable(){
     xhttp.send();
 }
 
+function clearHistory(){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('clearing').innerHTML = this.responseText;
+        }
+    };
+
+    alert("History cleared. ");
+    xhttp.open("GET", "ClearHistoryServlet", true);
+    xhttp.send();
+    location.reload();
+}
+
+function clearBmiHistory(){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('clearingBmi').innerHTML = this.responseText;
+        }
+    };
+
+    alert("History cleared. ");
+    xhttp.open("GET", "ClearBmiHistoryServlet", true);
+    xhttp.send();
+    location.reload();
+}
+
 function getCategories(){
 
     var xhttp = new XMLHttpRequest();
@@ -157,7 +203,7 @@ function start(){
 
     getHistoryTable();
     getStatsTable();
-
+    getBmiTable();
 }
 
 function lastBmi(){

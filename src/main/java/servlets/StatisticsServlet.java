@@ -1,6 +1,6 @@
 package servlets;
 
-import model.Exercise;
+import model.ExerciseDao;
 import model.Model;
 
 import javax.servlet.ServletException;
@@ -26,6 +26,11 @@ public class StatisticsServlet extends HttpServlet {
     private Model model;
 
     /**
+     * An entity manager
+     */
+    private ExerciseDao exerciseDao;
+
+    /**
      * This method will handle request
      * @param request servlet request
      * @param response servlet response
@@ -47,10 +52,10 @@ public class StatisticsServlet extends HttpServlet {
             out.println(n);
             out.println("</td>");
             out.println("<td>");
-            out.println(model.getSumDistanceForEach(n));
+            out.println(model.getSumDistanceForEach(n, exerciseDao.readHistory()));
             out.println("</td>");
             out.println("<td>");
-            out.println(model.getSumDurationForEach(n));
+            out.println(model.getSumDurationForEach(n, exerciseDao.readHistory()));
             out.println("</td>");
             out.println("</tr>");
         }
@@ -60,13 +65,21 @@ public class StatisticsServlet extends HttpServlet {
      * This method will check if in the session the model exists
      * @param request servlet request
      */
-    protected void checkIfModelExists(HttpServletRequest request){
+    protected void checkIfModelAndDatabaseManagerExists(HttpServletRequest request){
         if((Model) request.getSession().getServletContext().getAttribute("model") == null){
             this.model = new Model();
             request.getSession().getServletContext().setAttribute("model", model);
         }
         else{
             this.model = (Model) request.getSession().getServletContext().getAttribute("model");
+        }
+
+        if(request.getSession().getServletContext().getAttribute("database") == null){
+            this.exerciseDao = new ExerciseDao();
+            request.getSession().getServletContext().setAttribute("database", exerciseDao);
+        }
+        else{
+            this.exerciseDao = (ExerciseDao) request.getSession().getServletContext().getAttribute("database");
         }
     }
 
@@ -80,7 +93,7 @@ public class StatisticsServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        checkIfModelExists(request);
+        checkIfModelAndDatabaseManagerExists(request);
         processRequest(request, response);
     }
 
@@ -94,7 +107,7 @@ public class StatisticsServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        checkIfModelExists(request);
+        checkIfModelAndDatabaseManagerExists(request);
         processRequest(request, response);
     }
 }

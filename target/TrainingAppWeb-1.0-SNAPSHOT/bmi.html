@@ -12,7 +12,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="start();">
 
     <h1>Calculating BMI</h1>
     <p id="lastHeight"></p>
@@ -34,6 +34,24 @@
     <p>
         <button class="button" onclick="goForMainPage()" style="vertical-align:middle"><span>Main page </span></button>
     </p>
+    <h2>BMI history</h2>
+    <table class="content-table">
+        <thead>
+        <tr>
+            <th>Height</th>
+            <th>Weight</th>
+            <th>BMI</th>
+        </tr>
+        </thead>
+        <tbody id="bmiTable">
+
+        </tbody>
+    </table>
+
+        <p id="clearingBmi"></p>
+        <p>
+            <button class="button" onclick="clearBmiHistory()" style="vertical-align:middle"><span>Clear history </span></button>
+        </p>
 
 </body>
 </html>

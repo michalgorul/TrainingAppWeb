@@ -211,6 +211,45 @@ public class Model {
     }
 
     /**
+     * This method will give us sum of kilometers using for each loop of specific category
+     * @param arrayName name of a specific category
+     * @param vec vector of exercises
+     * @return sum of kilometers in specific category
+     */
+    public Double getSumDistanceForEach(String arrayName, Vector<Exercise> vec){
+
+        Double sum = 0.0;
+
+        for(Exercise ex : vec){
+
+            if(ex.getExerciseName().equals(arrayName)){
+
+                sum += ex.getDistance();
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * This method will give us sum of minutes using for each loop of specific category
+     * @param arrayName name of a specific category
+     * @param vec vector of exercises
+     * @return sum of minutes in specific category
+     */
+    public Double getSumDurationForEach(String arrayName, Vector<Exercise> vec){
+
+        Double sum = 0.0;
+
+        for(Exercise ex : vec){
+
+            if(ex.getExerciseName().equals(arrayName)) {
+                sum += ex.getDuration();
+            }
+        }
+        return sum;
+    }
+
+    /**
      * This method will give us sum of kilometers from specific category using streams
      * I'm using streams here
      * @param arrayName category from which we want to get sum of reps

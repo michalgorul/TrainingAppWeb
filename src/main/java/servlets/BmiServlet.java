@@ -1,6 +1,7 @@
 package servlets;
 
 import exceptions.MyException;
+import model.ExerciseDao;
 import model.Model;
 
 import javax.servlet.ServletException;
@@ -34,6 +35,11 @@ public class BmiServlet extends HttpServlet {
      * A cookie for users weight
      */
     private Cookie cookieWeight;
+
+    /**
+     * An entity manager
+     */
+    private ExerciseDao exerciseDao;
 
     /**
      * This method will handle request
@@ -87,6 +93,8 @@ public class BmiServlet extends HttpServlet {
                     cookieHeight = new Cookie("height", height.toString());
                     cookieWeight = new Cookie("weight", weight.toString());
                     calculated(height, weight, response);
+
+                    exerciseDao.registerBmi(height,weight, model.calculateBmi(height, weight));
 
                     response.addCookie(cookieHeight);
                     response.addCookie(cookieWeight);
@@ -183,6 +191,14 @@ public class BmiServlet extends HttpServlet {
         }
         else{
             this.model = (Model) request.getSession().getServletContext().getAttribute("model");
+        }
+
+        if(request.getSession().getServletContext().getAttribute("database") == null){
+            this.exerciseDao = new ExerciseDao();
+            request.getSession().getServletContext().setAttribute("database", exerciseDao);
+        }
+        else{
+            this.exerciseDao = (ExerciseDao) request.getSession().getServletContext().getAttribute("database");
         }
     }
 
