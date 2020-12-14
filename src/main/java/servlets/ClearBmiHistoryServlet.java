@@ -19,12 +19,11 @@ public class ClearBmiHistoryServlet extends HttpServlet {
 
     /**
      * This method will handle request
-     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
@@ -50,14 +49,14 @@ public class ClearBmiHistoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         checkIfDaoExists(request);
-        processRequest(request, response);
+        processRequest(response);
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         checkIfDaoExists(request);
-        processRequest(request, response);
+        processRequest(response);
 
     }
 }

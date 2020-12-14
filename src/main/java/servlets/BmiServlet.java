@@ -27,16 +27,6 @@ public class BmiServlet extends HttpServlet {
     private Model model;
 
     /**
-     * A cookie for users height
-     */
-    private Cookie cookieHeight;
-
-    /**
-     * A cookie for users weight
-     */
-    private Cookie cookieWeight;
-
-    /**
      * An entity manager
      */
     private ExerciseDao exerciseDao;
@@ -73,11 +63,11 @@ public class BmiServlet extends HttpServlet {
 
 
         if(arg1 == null || arg1.length() == 0){
-            notCalculated("height", response);
+            notCalculated(response);
 
         }
         else if(arg2 == null  || arg2.length() == 0){
-            notCalculated("weight", response);
+            notCalculated(response);
         }
         else{
 
@@ -90,8 +80,14 @@ public class BmiServlet extends HttpServlet {
                 try{
                     model.setHeightAndWeight(arg1,arg2);
                     model.checkHeightAndWeight();
-                    cookieHeight = new Cookie("height", height.toString());
-                    cookieWeight = new Cookie("weight", weight.toString());
+                    /**
+                     * A cookie for users height
+                     */
+                    Cookie cookieHeight = new Cookie("height", height.toString());
+                    /**
+                     * A cookie for users weight
+                     */
+                    Cookie cookieWeight = new Cookie("weight", weight.toString());
                     calculated(height, weight, response);
 
                     exerciseDao.registerBmi(height,weight, model.calculateBmi(height, weight));
@@ -100,14 +96,14 @@ public class BmiServlet extends HttpServlet {
                     response.addCookie(cookieWeight);
                 }
                 catch (MyException ignored){
-                    notCalculated("height and weight", response);
+                    notCalculated(response);
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or wrong parameters");
                 }
 
 
             }catch (NumberFormatException ex){
 
-                notCalculated("height and weight", response);
+                notCalculated(response);
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or wrong parameters");
 
             }
@@ -136,9 +132,9 @@ public class BmiServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h2>Your result:</h2>");
 
-            out.println("<p class=\"b\"> height: " + Double.toString(height) + "</p>");
-            out.println("<p class=\"b\"> weight: " + Double.toString(weight) + "</p>");
-            out.println("<h3 class=\"b\"> BMI: " + Double.toString(model.calculateBmi(height, weight)) + "</h3>");
+            out.println("<p class=\"b\"> height: " + height + "</p>");
+            out.println("<p class=\"b\"> weight: " + weight + "</p>");
+            out.println("<h3 class=\"b\"> BMI: " + model.calculateBmi(height, weight) + "</h3>");
 
 
             out.println("</body>");
@@ -152,13 +148,11 @@ public class BmiServlet extends HttpServlet {
 
     /**
      * This method will handle action after user input was wrong
-     * @param wrongInput what value was badly input
      * @param response servlet request
-     * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void notCalculated(String wrongInput, HttpServletResponse response)
-            throws ServletException, IOException{
+    protected void notCalculated(HttpServletResponse response)
+            throws IOException{
 
         try{
             /* TODO output your page here. You may use following sample code. */
@@ -185,7 +179,7 @@ public class BmiServlet extends HttpServlet {
      * @param request servlet request
      */
     protected void checkIfModelExists(HttpServletRequest request){
-        if((Model) request.getSession().getServletContext().getAttribute("model") == null){
+        if(request.getSession().getServletContext().getAttribute("model") == null){
             this.model = new Model();
             request.getSession().getServletContext().setAttribute("model", model);
         }

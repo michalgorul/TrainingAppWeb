@@ -1,9 +1,7 @@
 package servlets;
 
 import model.Bmi;
-import model.Exercise;
 import model.ExerciseDao;
-import model.Model;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,12 +28,11 @@ public class BmiHistoryServlet extends HttpServlet {
 
     /**
      * This method will handle request
-     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
@@ -86,7 +83,7 @@ public class BmiHistoryServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         checkIfModelAndDatabaseManagerExists(request);
-        processRequest(request, response);
+        processRequest(response);
     }
 
     /**
@@ -100,7 +97,7 @@ public class BmiHistoryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         checkIfModelAndDatabaseManagerExists(request);
-        processRequest(request, response);
+        processRequest(response);
     }
 }
 

@@ -385,7 +385,4 @@ public class ExerciseDao {
             } // end finally try
         } // end try
     }
-
-
-
 }
